@@ -1,1 +1,3 @@
-# ansible-collection-services
+# Ansible Collection - rytis.services
+
+Documentation for the collection.
