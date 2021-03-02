@@ -37,6 +37,7 @@ job "cctv" {
       config {
         image = "ccrisan/motioneye:master-amd64"
         ports = ["http"]
+        hostname = "motioneye"
       }
 
       resources {
