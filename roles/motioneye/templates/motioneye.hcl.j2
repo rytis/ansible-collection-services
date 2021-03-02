@@ -1,0 +1,49 @@
+job "cctv" {
+  datacenters = ["{{ nomad.datacenter }}"]
+
+  group "motioneye" {
+    network {
+      port "http" {
+        static = 8080
+        to = 8765
+      }
+    }
+
+    volume "motioneye_videos" {
+      type = "host"
+      read_only = false
+      source = "motioneye_videos"
+    }
+
+    volume "motioneye_config" {
+      type = "host"
+      read_only = false
+      source = "motioneye_config"
+    }
+
+    task "web" {
+      driver = "docker"
+
+      volume_mount {
+        volume = "motioneye_config"
+        destination = "/etc/motioneye"
+      }
+
+      volume_mount {
+        volume = "motioneye_videos"
+        destination = "/var/lib/motioneye"
+      }
+
+      config {
+        image = "ccrisan/motioneye:master-amd64"
+        ports = ["http"]
+      }
+
+      resources {
+        cpu    = 1000
+        memory = 2048
+      }
+    }
+  }
+}
+

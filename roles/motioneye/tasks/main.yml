@@ -1,0 +1,12 @@
+- name: Create MotionEye dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ motioneye_config_dir }}"
+    - "{{ motioneye_videos_dir }}"
+
+- name: Run deployment tasks
+  ansible.builtin.include_tasks:
+    file: "{{ motioneye_deployment_type }}.yml"
+

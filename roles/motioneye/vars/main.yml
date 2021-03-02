@@ -1,0 +1,5 @@
+motioneye_deployment_type: "nomad"
+
+motioneye_base_dir: "/opt/motioneye"
+motioneye_config_dir: "{{ motioneye_base_dir }}/config"
+motioneye_videos_dir: "{{ motioneye_base_dir }}/videos"
