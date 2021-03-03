@@ -40,6 +40,12 @@ job "cctv" {
         hostname = "motioneye"
       }
 
+      service {
+        name = "motioneye"
+        port = "http"
+        address_mode = "host"
+      }
+
       resources {
         cpu    = 1000
         memory = 2048
