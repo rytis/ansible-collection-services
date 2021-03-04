@@ -41,9 +41,10 @@ job "cctv" {
       }
 
       service {
-        name = "motioneye"
+        name = "${JOB}"
         port = "http"
         address_mode = "host"
+        tags = ["web"]
       }
 
       resources {
