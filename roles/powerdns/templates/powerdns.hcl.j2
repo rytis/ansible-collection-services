@@ -11,23 +11,29 @@ job "powerdns" {
         to = 8082
       }
     }
-#    volume "pdns_recursor_conf" {
-#      type = "host"
-#      read_only = false
-#      source = "pdns_recursor_conf"
-#    }
+    volume "pdns_recursor_conf" {
+      type = "host"
+      read_only = false
+      source = "pdns_recursor_conf"
+    }
     task "recursor" {
       driver = "docker"
       config {
         image = "powerdns/pdns-recursor-master"
         ports = ["recursor-dns", "recursor-admin"]
       }
-#      volume_mount {
-#        volume = "pdns_recursor_conf"
-#        destination = "/etc/powerdns"
+      volume_mount {
+        volume = "pdns_recursor_conf"
+        destination = "/etc/powerdns"
+      }
+#      env {
+#        PDNS_RECURSOR_API_KEY = "{{ powerdns_recursor_api_key }}"
 #      }
-      env {
-        PDNS_RECURSOR_API_KEY = "{{ powerdns_recursor_api_key }}"
+      service {
+        name = "${TASK}"
+        port = "recursor-admin"
+        address_mode = "host"
+        tags = ["web"]
       }
       resources {
         cpu = 500

@@ -1,0 +1,11 @@
+- name: Create PowerDNS recursor configuration folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop: "{{ powerdns_recursor_conf_dirs }}"
+
+- name: Deploy configuration
+  ansible.builtin.template:
+    src: "recursor.conf.j2"
+    dest: "{{ powerdns_recursor_conf_base }}/recursor.conf"
