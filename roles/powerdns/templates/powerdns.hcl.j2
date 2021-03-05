@@ -1,0 +1,38 @@
+job "powerdns" {
+  datacenters = ["{{ nomad.datacenter }}"]
+  group "service" {
+    network {
+      port "recursor-dns" {
+        static = 2053
+        to = 53
+      }
+      port "recursor-admin" {
+        static = 8082
+        to = 8082
+      }
+    }
+#    volume "pdns_recursor_conf" {
+#      type = "host"
+#      read_only = false
+#      source = "pdns_recursor_conf"
+#    }
+    task "recursor" {
+      driver = "docker"
+      config {
+        image = "powerdns/pdns-recursor-master"
+        ports = ["recursor-dns", "recursor-admin"]
+      }
+#      volume_mount {
+#        volume = "pdns_recursor_conf"
+#        destination = "/etc/powerdns"
+#      }
+      env {
+        PDNS_RECURSOR_API_KEY = "{{ powerdns_recursor_api_key }}"
+      }
+      resources {
+        cpu = 500
+        memory = 1024
+      }
+    }
+  }
+}
