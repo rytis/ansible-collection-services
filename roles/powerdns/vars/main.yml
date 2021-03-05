@@ -4,6 +4,7 @@ powerdns_recursor_conf_dirs:
   - "{{ powerdns_recursor_conf_base }}/recursor.d"
   - "{{ powerdns_recursor_conf_base }}/templates.d"
 powerdns_local_domains:
-  - "consul"
-  - "home"
-  - "local"
+  - name: "consul"
+    forwarder: "{{ ansible_default_ipv4.address }}:8600"
+  - name: "local"
+    forwarder: "127.0.0.1"

@@ -250,7 +250,9 @@ api-key={{ powerdns_recursor_api_key }}
 # forward-zones	Zones for which we forward queries, comma separated domain=ip pairs
 #
 # forward-zones=
-forward-zones=consul={{ ansible_default_ipv4.address }}:8600
+{% for domain in powerdns_local_domains %}
+forward-zones{% if not loop.first %}+{% endif %}={{ domain.name }}={{ domain.forwarder }}
+{% endfor %}
 
 
 #################################
