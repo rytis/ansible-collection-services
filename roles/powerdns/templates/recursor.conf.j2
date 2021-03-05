@@ -250,6 +250,8 @@ api-key={{ powerdns_recursor_api_key }}
 # forward-zones	Zones for which we forward queries, comma separated domain=ip pairs
 #
 # forward-zones=
+forward-zones=consul={{ ansible_default_ipv4.address }}:8600
+
 
 #################################
 # forward-zones-file	File with (+)domain=ip pairs for forwarding
@@ -327,6 +329,7 @@ local-address=0.0.0.0,::
 # lua-config-file	More powerful configuration options
 #
 # lua-config-file=
+lua-config-file=/etc/powerdns/recursor.lua
 
 #################################
 # lua-dns-script	Filename containing an optional 'lua' script that will be used to modify dns answers

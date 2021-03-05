@@ -3,4 +3,7 @@ powerdns_recursor_conf_base: "/opt/powerdns/recursor/conf"
 powerdns_recursor_conf_dirs:
   - "{{ powerdns_recursor_conf_base }}/recursor.d"
   - "{{ powerdns_recursor_conf_base }}/templates.d"
-
+powerdns_local_domains:
+  - "consul"
+  - "home"
+  - "local"

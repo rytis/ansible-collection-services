@@ -1,0 +1,3 @@
+{% for domain in powerdns_local_domains %}
+addNTA("{{ domain }}")
+{% endfor %}
