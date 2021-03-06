@@ -10,11 +10,29 @@ job "powerdns" {
         static = 8082
         to = 8082
       }
+      port "auth-dns" {
+        static = 1053
+        to = 53
+      }
+      port "auth-admin" {
+        static = 8081
+        to = 8081
+      }
     }
     volume "pdns_recursor_conf" {
       type = "host"
       read_only = false
       source = "pdns_recursor_conf"
+    }
+    volume "pdns_auth_conf" {
+      type = "host"
+      read_only = false
+      source = "pdns_auth_conf"
+    }
+    volume "pdns_auth_data" {
+      type = "host"
+      read_only = false
+      source = "pdns_auth_data"
     }
     task "recursor" {
       driver = "docker"
@@ -26,12 +44,34 @@ job "powerdns" {
         volume = "pdns_recursor_conf"
         destination = "/etc/powerdns"
       }
-#      env {
-#        PDNS_RECURSOR_API_KEY = "{{ powerdns_recursor_api_key }}"
-#      }
       service {
-        name = "${TASK}"
+        name = "${JOB}-${TASK}"
         port = "recursor-admin"
+        address_mode = "host"
+        tags = ["web"]
+      }
+      resources {
+        cpu = 500
+        memory = 1024
+      }
+    }
+    task "auth" {
+      driver = "docker"
+      config {
+        image = "powerdns/pdns-auth-master"
+        ports = ["auth-dns", "auth-admin"]
+      }
+      volume_mount {
+        volume = "pdns_auth_conf"
+        destination = "/etc/powerdns"
+      }
+      volume_mount {
+        volume = "pdns_auth_data"
+        destination = "/var/lib/powerdns"
+      }
+      service {
+        name = "${JOB}-${TASK}"
+        port = "auth-admin"
         address_mode = "host"
         tags = ["web"]
       }

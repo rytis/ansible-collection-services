@@ -1,10 +1,24 @@
 powerdns_deployment_type: "nomad"
+
 powerdns_recursor_conf_base: "/opt/powerdns/recursor/conf"
 powerdns_recursor_conf_dirs:
   - "{{ powerdns_recursor_conf_base }}/recursor.d"
   - "{{ powerdns_recursor_conf_base }}/templates.d"
+
+powerdns_auth_conf_base: "/opt/powerdns/auth/conf"
+powerdns_auth_conf_dirs:
+  - "{{ powerdns_auth_conf_base }}/pdns.d"
+  - "{{ powerdns_auth_conf_base }}/templates.d"
+
+powerdns_auth_data_base: "/opt/powerdns/auth/data"
+
 powerdns_local_domains:
   - name: "consul"
     forwarder: "{{ ansible_default_ipv4.address }}:8600"
   - name: "local"
     forwarder: "127.0.0.1"
+
+powerdns_extra_os_packages:
+  - sqlite
+
+powerdns_backend_schema_url: "https://raw.githubusercontent.com/PowerDNS/pdns/master/modules/gsqlite3backend/schema.sqlite3.sql"
