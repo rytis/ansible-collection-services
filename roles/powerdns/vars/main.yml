@@ -11,6 +11,7 @@ powerdns_auth_conf_dirs:
   - "{{ powerdns_auth_conf_base }}/templates.d"
 
 powerdns_auth_data_base: "/opt/powerdns/auth/data"
+powerdns_admin_data_base: "/opt/powerdns/admin/data"
 
 powerdns_local_domains:
   - name: "consul"

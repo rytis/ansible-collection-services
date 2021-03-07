@@ -38,6 +38,11 @@ job "powerdns" {
       read_only = false
       source = "pdns_auth_data"
     }
+    volume "pdns_admin_data" {
+      type = "host"
+      read_only = false
+      source = "pdns_admin_data"
+    }
     task "recursor" {
       driver = "docker"
       config {
@@ -90,14 +95,10 @@ job "powerdns" {
         image = "ngoduykhanh/powerdns-admin"
         ports = ["admin"]
       }
-#      volume_mount {
-#        volume = "pdns_auth_conf"
-#        destination = "/etc/powerdns"
-#      }
-#      volume_mount {
-#        volume = "pdns_auth_data"
-#        destination = "/var/lib/powerdns"
-#      }
+      volume_mount {
+        volume = "pdns_admin_data"
+        destination = "/data"
+      }
       service {
         name = "${JOB}-${TASK}"
         port = "admin"
