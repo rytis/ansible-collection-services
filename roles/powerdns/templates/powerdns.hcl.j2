@@ -18,6 +18,10 @@ job "powerdns" {
         static = 8081
         to = 8081
       }
+      port "admin" {
+        static = 9191
+        to = 80
+      }
     }
     volume "pdns_recursor_conf" {
       type = "host"
@@ -72,6 +76,31 @@ job "powerdns" {
       service {
         name = "${JOB}-${TASK}"
         port = "auth-admin"
+        address_mode = "host"
+        tags = ["web"]
+      }
+      resources {
+        cpu = 500
+        memory = 1024
+      }
+    }
+    task "admin" {
+      driver = "docker"
+      config {
+        image = "ngoduykhanh/powerdns-admin"
+        ports = ["admin"]
+      }
+#      volume_mount {
+#        volume = "pdns_auth_conf"
+#        destination = "/etc/powerdns"
+#      }
+#      volume_mount {
+#        volume = "pdns_auth_data"
+#        destination = "/var/lib/powerdns"
+#      }
+      service {
+        name = "${JOB}-${TASK}"
+        port = "admin"
         address_mode = "host"
         tags = ["web"]
       }
