@@ -1,0 +1,4 @@
+
+- name: Run deployment tasks
+  ansible.builtin.include_tasks:
+    file: "{{ pihole_deployment_type }}.yml"

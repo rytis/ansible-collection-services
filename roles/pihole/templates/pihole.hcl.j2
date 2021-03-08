@@ -1,0 +1,26 @@
+job "pihole" {
+  datacenters = ["{{ nomad.datacenter }}"]
+  group "service" {
+    network {
+      port "web" {
+        to = 80
+        static = 7080
+      }
+      port "dns" {
+        to = 53
+        static = 53
+      }
+    }
+    task "app" {
+      driver = "docker"
+      config {
+        image = "pihole/pihole"
+        ports = ["web", "dns"]
+      }
+      resources {
+        cpu = 500
+        memory = 512
+      }
+    }
+  } 
+}

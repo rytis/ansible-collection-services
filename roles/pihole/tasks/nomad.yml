@@ -1,0 +1,9 @@
+
+- name: Create Nomad job
+  community.general.nomad_job:
+    host: "{{ nomad.master }}"
+    state: present
+    content: "{{ lookup('ansible.builtin.template', 'pihole.hcl.j2') }}"
+    timeout: 600
+    use_ssl: no
+  run_once: yes
