@@ -2,9 +2,13 @@ job "pihole" {
   datacenters = ["{{ nomad.datacenter }}"]
   group "service" {
     network {
-      port "web" {
+      port "http" {
         to = 80
         static = 7080
+      }
+      port "https" {
+        to = 443
+        static = 7443
       }
       port "dns" {
         to = 53
@@ -15,7 +19,11 @@ job "pihole" {
       driver = "docker"
       config {
         image = "pihole/pihole"
-        ports = ["web", "dns"]
+        ports = ["http", "https", "dns"]
+      }
+      env {
+        TZ = "Etc/UTC"
+        WEBPASSWORD = "{{ pihole_admin_password }}"
       }
       resources {
         cpu = 500
