@@ -39,6 +39,12 @@ job "pihole" {
         volume = "pihole_dnsmasq_config"
         destination = "/etc/dnsmasq.d"
       }
+      service {
+        name = "${JOB}"
+        port = "http"
+        address_mode = "host"
+        tags = ["web"]
+      }
       env {
         TZ = "Etc/UTC"
         WEBPASSWORD = "{{ pihole_admin_password }}"
