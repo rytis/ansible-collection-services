@@ -15,18 +15,36 @@ job "pihole" {
         static = 53
       }
     }
+    volume "pihole_pihole_config" {
+      type = "host"
+      read_only = false
+      source = "pihole_pihole_config"
+    }
+    volume "pihole_dnsmasq_config" {
+      type = "host"
+      read_only = false
+      source = "pihole_dnsmasq_config"
+    }
     task "app" {
       driver = "docker"
       config {
         image = "pihole/pihole"
         ports = ["http", "https", "dns"]
       }
+      volume_mount {
+        volume = "pihole_pihole_config"
+        destination = "/etc/pihole"
+      }
+      volume_mount {
+        volume = "pihole_dnsmasq_config"
+        destination = "/etc/dnsmasq.d"
+      }
       env {
         TZ = "Etc/UTC"
         WEBPASSWORD = "{{ pihole_admin_password }}"
       }
       resources {
-        cpu = 500
+        cpu = 300
         memory = 512
       }
     }
