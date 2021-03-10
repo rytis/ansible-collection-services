@@ -30,6 +30,7 @@ job "pihole" {
       config {
         image = "pihole/pihole"
         ports = ["http", "https", "dns"]
+        hostname = "pihole"
       }
       volume_mount {
         volume = "pihole_pihole_config"
