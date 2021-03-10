@@ -50,6 +50,8 @@ job "pihole" {
         TZ = "Etc/UTC"
         WEBPASSWORD = "{{ pihole_admin_password }}"
         PIHOLE_DNS_ = "{{ dns_servers }}"
+        DNS_FQDN_REQUIRED = "false"
+        DNS_BOGUS_PRIV = "false"
       }
       resources {
         cpu = 300
