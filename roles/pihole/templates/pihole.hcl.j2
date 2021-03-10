@@ -48,6 +48,7 @@ job "pihole" {
       env {
         TZ = "Etc/UTC"
         WEBPASSWORD = "{{ pihole_admin_password }}"
+        PIHOLE_DNS_ = "{{ dns_servers }}"
       }
       resources {
         cpu = 300
