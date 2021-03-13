@@ -59,6 +59,12 @@ job "powerdns" {
         address_mode = "host"
         tags = ["web"]
       }
+      service {
+        name = "${JOB}-${TASK}-dns"
+        port = "recursor-dns"
+        address_mode = "host"
+        tags = ["dns"]
+      }
       resources {
         cpu = 300
         memory = 512
@@ -83,6 +89,12 @@ job "powerdns" {
         port = "auth-admin"
         address_mode = "host"
         tags = ["web"]
+      }
+      service {
+        name = "${JOB}-${TASK}-dns"
+        port = "auth-dns"
+        address_mode = "host"
+        tags = ["dns"]
       }
       resources {
         cpu = 300
