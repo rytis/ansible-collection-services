@@ -29,4 +29,4 @@ jobs:
        env:
          GALAXY_TOKEN: ${{ secrets.GALAXY_TOKEN }}
        run: |
-           ansible-galaxy collection publish rytis-hashicorp-${{ env.PACKAGE_VERSION }}.tar.gz --token=$GALAXY_TOKEN
+           ansible-galaxy collection publish rytis-services-${{ env.PACKAGE_VERSION }}.tar.gz --token=$GALAXY_TOKEN
